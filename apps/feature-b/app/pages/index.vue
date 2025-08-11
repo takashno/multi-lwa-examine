@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4 py-8">
     <div class="mb-8">
-      <h1 class="text-3xl font-bold text-gray-900 mb-4">TODO一覧</h1>
+      <h1 class="text-3xl font-bold text-gray-900 mb-4">プロフィール一覧</h1>
       
       <!-- 新規作成ボタン -->
       <div class="mb-6">
@@ -21,22 +21,22 @@
         全{{ paginationInfo.totalItems }}件中 {{ paginationInfo.startItem }}-{{ paginationInfo.endItem }}件を表示
       </div>
 
-      <!-- TODOテーブル -->
+      <!-- プロフィールテーブル -->
       <div class="bg-white shadow-lg rounded-lg overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
             <tr>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                タイトル
+                氏名
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                メールアドレス
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                職業
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 ステータス
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                期日
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                登録者
               </th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 登録日
@@ -47,35 +47,35 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="todo in paginatedTodos" :key="todo.id" class="hover:bg-gray-50">
+            <tr v-for="profile in paginatedProfiles" :key="profile.id" class="hover:bg-gray-50">
               <td class="px-6 py-4">
                 <NuxtLink 
-                  :to="`/edit/${todo.id}`"
+                  :to="`/edit/${profile.id}`"
                   class="text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  {{ todo.title }}
+                  {{ profile.lastName }} {{ profile.firstName }}
                 </NuxtLink>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-900">
+                {{ profile.email }}
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-900">
+                {{ profile.occupation }}
               </td>
               <td class="px-6 py-4">
                 <span 
-                  :class="getStatusClass(todo.status)"
+                  :class="getStatusClass(profile.status)"
                   class="px-2 py-1 rounded-full text-xs font-medium"
                 >
-                  {{ todo.status }}
+                  {{ profile.status }}
                 </span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-900">
-                {{ todo.dueDate ? formatDate(todo.dueDate) : '-' }}
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-900">
-                {{ todo.createdBy }}
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-900">
-                {{ formatDate(todo.createdAt) }}
+                {{ formatDate(profile.createdAt) }}
               </td>
               <td class="px-6 py-4 text-sm text-gray-900">
                 <button
-                  @click="handleDelete(todo.id)"
+                  @click="handleDelete(profile.id)"
                   class="text-red-600 hover:text-red-800 font-medium"
                 >
                   削除
@@ -130,24 +130,24 @@
 </template>
 
 <script setup lang="ts">
-import type { TodoStatus } from '~/types/todo'
-import { formatDate } from '~/utils/todo'
+import type { ProfileStatus } from '../types/profile'
+import { formatDate } from '../utils/profile'
 
-const { paginatedTodos, paginationInfo, setCurrentPage, deleteTodo } = useTodoStore()
+const { paginatedProfiles, paginationInfo, setCurrentPage, deleteProfile } = useProfileStore()
 
-const getStatusClass = (status: TodoStatus) => {
+const getStatusClass = (status: ProfileStatus) => {
   const classes = {
-    '未着手': 'bg-gray-100 text-gray-800',
-    '着手中': 'bg-yellow-100 text-yellow-800',
-    '完了': 'bg-green-100 text-green-800',
-    '削除': 'bg-red-100 text-red-800'
+    'アクティブ': 'bg-green-100 text-green-800',
+    '一時停止': 'bg-yellow-100 text-yellow-800',
+    '無効': 'bg-red-100 text-red-800',
+    '削除済み': 'bg-gray-100 text-gray-800'
   }
   return classes[status]
 }
 
 const handleDelete = (id: string) => {
   if (confirm('本当に削除しますか？')) {
-    deleteTodo(id)
+    deleteProfile(id)
   }
 }
 
