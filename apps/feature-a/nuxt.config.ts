@@ -6,5 +6,16 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   imports: {
     dirs: ['stores']
+  },
+  // nitro: {
+  //   preset: 'aws-lambda',
+  //   experimental: {
+  //     wasm: true
+  //   }
+  // },
+  ssr: true,
+  runtimeConfig: {
+    // Lambda Web Adapter用のポート設定
+    port: Number(process.env.PORT) || 8080
   }
 })
