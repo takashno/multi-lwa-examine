@@ -40,8 +40,6 @@ COPY --from=builder /app/.output ./.output
 RUN rm -rf /tmp/* /var/cache/* /root/.npm
 
 # Lambda Web Adapter環境変数の設定
-ENV AWS_LAMBDA_EXEC_WRAPPER=/opt/extensions/lambda-adapter
-ENV RUST_LOG=info
 ENV PORT=8080
 ENV NODE_ENV=production
 
