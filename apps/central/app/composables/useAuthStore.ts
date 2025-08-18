@@ -34,28 +34,32 @@ const dummyUsers: User[] = [
 ]
 
 // アプリケーション機能リスト
-const appFeatures: AppFeature[] = [
-  {
-    id: 'todo',
-    name: 'TODO管理',
-    description: 'タスクとTODOを効率的に管理できます',
-    url: 'http://localhost:3001',
-    icon: '📝',
-    color: 'bg-blue-500',
-    isActive: true,
-    requiredRole: 'user'
-  },
-  {
-    id: 'profile',
-    name: 'プロフィール管理',
-    description: '個人情報とプロフィールを管理できます',
-    url: 'http://localhost:3002',
-    icon: '👤',
-    color: 'bg-green-500',
-    isActive: true,
-    requiredRole: 'user'
-  }
-]
+const getAppFeatures = (): AppFeature[] => {
+  const config = useRuntimeConfig()
+  
+  return [
+    {
+      id: 'todo',
+      name: 'TODO管理',
+      description: 'タスクとTODOを効率的に管理できます',
+      url: config.public.featureAUrl,
+      icon: '📝',
+      color: 'bg-blue-500',
+      isActive: true,
+      requiredRole: 'user'
+    },
+    {
+      id: 'profile',
+      name: 'プロフィール管理',
+      description: '個人情報とプロフィールを管理できます',
+      url: config.public.featureBUrl,
+      icon: '👤',
+      color: 'bg-green-500',
+      isActive: true,
+      requiredRole: 'user'
+    }
+  ]
+}
 
 export const useAuthStore = () => {
   // ローカルストレージから認証状態を復元
@@ -132,8 +136,9 @@ export const useAuthStore = () => {
     }
 
     const userRole = globalAuthState.value.user.role
+    const appFeatures = getAppFeatures()
     
-    return appFeatures.filter(feature => {
+    return appFeatures.filter((feature: AppFeature) => {
       if (!feature.isActive) return false
       if (!feature.requiredRole) return true
       
@@ -148,7 +153,7 @@ export const useAuthStore = () => {
 
   // 全機能リストを取得（管理者用）
   const getAllFeatures = (): AppFeature[] => {
-    return appFeatures
+    return getAppFeatures()
   }
 
   return {
