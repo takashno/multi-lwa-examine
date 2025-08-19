@@ -21,7 +21,10 @@ export default defineNuxtConfig({
     // Public keys that are exposed to the client-side
     public: {
       featureAUrl: process.env.FEATURE_A_URL || 'http://localhost:3001',
-      featureBUrl: process.env.FEATURE_B_URL || 'http://localhost:3002'
+      featureBUrl: process.env.FEATURE_B_URL || 'http://localhost:3002',
+      cognitoUserPoolId: process.env.COGNITO_USER_POOL_ID,
+      cognitoClientId: process.env.COGNITO_CLIENT_ID,
+      cognitoRegion: process.env.COGNITO_REGION
     }
   }
 })

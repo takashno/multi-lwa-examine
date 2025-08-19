@@ -9,18 +9,18 @@
 
       <!-- ログインフォーム -->
       <form @submit.prevent="handleLogin" class="login-form">
-        <!-- ユーザー名 -->
+        <!-- メールアドレス -->
         <div class="mb-6">
           <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
-            ユーザー名
+            メールアドレス
           </label>
           <input
             id="username"
             v-model="credentials.username"
-            type="text"
+            type="email"
             required
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-            placeholder="ユーザー名を入力"
+            placeholder="メールアドレスを入力"
             :disabled="isLoading"
           />
         </div>
@@ -86,10 +86,10 @@
 
         <!-- デモアカウント情報 -->
         <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <h4 class="text-sm font-medium text-blue-900 mb-2">デモアカウント</h4>
+          <h4 class="text-sm font-medium text-blue-900 mb-2">テストアカウント</h4>
           <div class="text-xs text-blue-700 space-y-1">
-            <div><strong>管理者:</strong> admin / password</div>
-            <div><strong>一般ユーザー:</strong> user / password</div>
+            <div><strong>メールアドレス:</strong> test@example.com</div>
+            <div><strong>パスワード:</strong> Password123!</div>
           </div>
         </div>
       </form>
